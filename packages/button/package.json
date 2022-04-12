@@ -1,6 +1,6 @@
 {
   "name": "@keith/button",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "keywords": [],
   "license": "MIT",
   "main": "lib/index.js",
