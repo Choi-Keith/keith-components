@@ -1,0 +1,50 @@
+image: node:14
+
+
+stages:
+- install
+- test
+- deploy
+
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+
+install_package:
+  stage: install
+  tags:
+    - frontend-tag
+  only:
+    - master
+  script:
+    - npm install
+
+test:
+  stage: test
+  tags:
+    - frontend-tag
+  only:
+    - master
+  script:
+    - npm run test
+
+deploy:
+  stage: deploy
+  tags:
+    - frontend-tag
+  only:
+    - master
+  script:
+    - apt-get update -y
+    - apt-get -y install rsync
+    - apt-get -y install sshpass
+    - npm run build
+    - npm run site
+    - cd docs-dist
+    - if [ "$SSH_PASS" ]; then sshpass -p "$SSH_PASS" rsync -rtvhze "ssh -o StrictHostKeyChecking=no" . root@192.168.80.129:/home/nginx --stats; fi
+
+

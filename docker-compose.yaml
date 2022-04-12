@@ -1,0 +1,7 @@
+services:
+  docs-server:
+    image: nginx
+    ports:
+      - '3001:3001'
+    volumes:
+      - /home/nginx:/home/dist
